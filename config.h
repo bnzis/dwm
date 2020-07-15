@@ -30,6 +30,7 @@ static const Rule rules[] = {
 	{ "Gimp",     NULL,       NULL,       0,            1,           0,         0,        -1 },
 	{ "St",       NULL,       NULL,       0,            0,           1,         1,        -1 },
 	{ "StFloat",  NULL,       NULL,       0,            1,           1,         1,        -1 },
+	{ "mgba",       NULL,       NULL,     0,            1,           0,         1,        -1 },
 };
 
 /* layout(s) */

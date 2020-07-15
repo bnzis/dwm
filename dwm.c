@@ -327,6 +327,7 @@ applyrules(Client *c)
 		{
 			c->isterminal = r->isterminal;
 			c->isfloating = r->isfloating;
+			c->noswallow = r->noswallow;
 			c->tags |= r->tags;
 			for (m = mons; m && m->num != r->monitor; m = m->next);
 			if (m)
@@ -2411,7 +2412,7 @@ termforwin(const Client *w)
 	Client *c;
 	Monitor *m;
 
-	if (!w->pid || w->isterminal)
+	if (w->noswallow || w->isterminal || !w->pid)
 		return NULL;
 
 	for (m = mons; m; m = m->next) {
