@@ -71,8 +71,8 @@ static const char *floatstcmd[] = { "st", "-c", "StFloat", NULL };
 
 /* autocwd settings */
 static int autocwd = 1; /* 0 means no automatic cwd */
-static const Arg cwdon = SHCMD("notify-send -t 700 \"AUTOCWD: ON\"");
-static const Arg cwdoff = SHCMD("notify-send -t 700 \"AUTOCWD: OFF\"");
+static const Arg cwdon = SHCMD("dunstify -t 700 -r 111 \"AUTOCWD: ON\"");
+static const Arg cwdoff = SHCMD("dunstify -t 700 -r 111 \"AUTOCWD: OFF\"");
 
 static Key keys[] = {
 	/* modifier               key                        function        argument */
