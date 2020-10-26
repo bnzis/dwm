@@ -1,5 +1,5 @@
 /* See LICENSE file for copyright and license details.
-******** 
+********
  * dynamic window manager is designed like any other X client as well. It is
  * driven through handling X events. In contrast to other X clients, a window
  * manager selects for SubstructureRedirectMask on the root window, to receive
@@ -501,7 +501,7 @@ buttonpress(XEvent *e)
 		unfocus(selmon->sel, 1);
 		selmon = m;
 		focus(NULL);
-	}
+    	}
 	if (ev->window == selmon->barwin) {
 		i = x = 0;
 		do
@@ -1753,7 +1753,7 @@ spawn(const Arg *arg)
 	if (fork() == 0) {
 		if (dpy)
 			close(ConnectionNumber(dpy));
-		
+
 		if (autocwd) {
 			/* spawn from current working directory */
 			if(selmon->sel) {

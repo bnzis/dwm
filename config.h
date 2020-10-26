@@ -6,16 +6,18 @@ static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "Terminus:size=8" };
-static const char dmenufont[]       = "Terminus:size=8";
+static const char *fonts[]          = {
+	"IBM CGA 8x8:style=Regular:size=7",
+	"Terminus:size=8"
+};
 static const char col_white[]       = "#FFFFFF";
-static const char col_gray1[]       = "#222222";
+static const char col_gray1[]       = "#292b2e";
 static const char col_gray2[]       = "#666666";
-static const char col_cyan[]        = "#005577";
+static const char col_cyan[]        = "#bc6ec5";
 static const char *colors[][3]      = {
     /*               fg         bg         border   */
     [SchemeNorm] = { col_white, col_gray1, col_gray2 },
-    [SchemeSel]  = { col_gray2, col_gray1, col_white },
+    [SchemeSel]  = { col_cyan,  col_gray1, col_white },
 };
 
 /* tagging */
@@ -30,7 +32,7 @@ static const Rule rules[] = {
 	{ "Gimp",     NULL,       NULL,       0,            1,           0,         0,        -1 },
 	{ "St",       NULL,       NULL,       0,            0,           1,         1,        -1 },
 	{ "StFloat",  NULL,       NULL,       0,            1,           1,         1,        -1 },
-	{ "mgba",       NULL,       NULL,     0,            1,           0,         1,        -1 },
+	{ "mgba",     NULL,       NULL,       0,            1,           0,         1,        -1 },
 };
 
 /* layout(s) */
@@ -38,11 +40,14 @@ static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] 
 static const int nmaster     = 1;    /* number of clients in master area */
 static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
 
+#include "gaplessgrid.c"
+
 static const Layout layouts[] = {
 	/* symbol     arrange function */
 	{ "[]=",      tile },    /* first entry is default */
 	{ "><>",      NULL },    /* no layout function means floating behavior */
 	{ "[M]",      monocle },
+	{ "###",      gaplessgrid },
 };
 
 /* key definitions */
@@ -64,7 +69,7 @@ static const char *termcmd[]  = { "st", NULL };
 
 /* scratchpad */
 static const char scratchpadname[] = "scratchpad";
-static const char *scratchpadcmd[] = { "st", "-t", scratchpadname, "-g", "90x30", NULL };
+static const char *scratchpadcmd[] = { "st", "-t", scratchpadname, "-g", "70x20", NULL };
 
 /* misc */
 static const char *floatstcmd[] = { "st", "-c", "StFloat", NULL };
@@ -85,6 +90,7 @@ static Key keys[] = {
 	{ 0,                      XF86XK_Mail,               spawn,          STCMD("neomutt") },
 	{ MODKEY,                 XK_y,                      spawn,          SHCMD("clipmenu") },
 	{ MODKEY|ShiftMask,       XK_p,                      spawn,          SHCMD("xdg-open $(dbrowse)") },
+	{ MODKEY,                 XK_v,                      spawn,          SHCMD("dmenu | mpv") },
 	{ MODKEY|ShiftMask,       XK_s,                      spawn,          SHCMD("prmpt shutdown sudo -A shutdown -h now") },
 	{ MODKEY|ShiftMask,       XK_r,                      spawn,          SHCMD("prmpt reboot sudo -A reboot") },
 	{ MODKEY|ShiftMask,       XK_l,                      spawn,          SHCMD("slock") },
@@ -102,6 +108,7 @@ static Key keys[] = {
 	{ 0,                      XF86XK_AudioNext,          spawn,          SHCMD("mpc next") },
 	{ 0,                      XF86XK_AudioPrev,          spawn,          SHCMD("mpc prev") },
 	{ MODKEY,                 XK_q,                      killclient,     {0} },
+	{ MODKEY,                 XK_g,                      setlayout,      {.v = &layouts[3] }},
 	/*                                                                            */
 	{ MODKEY,                 XK_p,                      spawn,          {.v = dmenucmd } },
 	{ MODKEY|ShiftMask,       XK_Return,                 spawn,          {.v = termcmd } },
@@ -156,4 +163,20 @@ static Button buttons[] = {
 	{ ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
 	{ ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
