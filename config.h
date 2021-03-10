@@ -7,7 +7,7 @@ static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[]          = {
-	"IBM CGA 8x8:style=Regular:size=7",
+/*	"IBM CGA 8x8:style=Regular:size=7",*/
 	"Terminus:size=8"
 };
 static const char col_white[]       = "#FFFFFF";
@@ -109,6 +109,7 @@ static Key keys[] = {
 	{ 0,                      XF86XK_AudioPrev,          spawn,          SHCMD("mpc prev") },
 	{ MODKEY,                 XK_q,                      killclient,     {0} },
 	{ MODKEY,                 XK_g,                      setlayout,      {.v = &layouts[3] }},
+	{ MODKEY,                 XK_o,                      winview,        {0} },
 	/*                                                                            */
 	{ MODKEY,                 XK_p,                      spawn,          {.v = dmenucmd } },
 	{ MODKEY|ShiftMask,       XK_Return,                 spawn,          {.v = termcmd } },
