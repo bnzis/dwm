@@ -36,11 +36,12 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class      instance    title       tags mask     isfloating   isterminal noswallow monitor */
-	{ "Gimp",     NULL,       NULL,       0,            1,           0,         0,        -1 },
-	{ "St",       NULL,       NULL,       0,            0,           1,         1,        -1 },
-	{ "StFloat",  NULL,       NULL,       0,            1,           1,         1,        -1 },
-	{ "mgba",     NULL,       NULL,       0,            1,           0,         1,        -1 },
+	/* class      instance    title                       tags mask     isfloating   isterminal noswallow monitor */
+	{ "Gimp",     NULL,       NULL,                       0,            1,           0,         0,        -1 },
+	{ "St",       NULL,       NULL,                       0,            0,           1,         1,        -1 },
+	{ "StFloat",  NULL,       NULL,                       0,            1,           1,         1,        -1 },
+	{ "mgba",     NULL,       NULL,                       0,            1,           0,         1,        -1 },
+	{ NULL,       NULL,       "Picture-in-Picture",       0,            1,           1,         1,        -1 },
 };
 
 /* layout(s) */
@@ -115,7 +116,8 @@ static Key keys[] = {
 	{ 0,                      XF86XK_AudioStop,          spawn,          SHCMD("mpc stop") },
 	{ 0,                      XF86XK_AudioNext,          spawn,          SHCMD("mpc next") },
 	{ 0,                      XF86XK_AudioPrev,          spawn,          SHCMD("mpc prev") },
-	{ MODKEY,                 XK_q,                      killclient,     {0} },
+	{ MODKEY,                 XK_a,                      spawn,          SHCMD("tabbed -d >/tmp/tabbed.xid") },
+	{ MODKEY,                 XK_q,                      spawn,          SHCMD("quickmedia launcher -e $(</tmp/tabbed.xid)") },
 	{ MODKEY,                 XK_g,                      setlayout,      {.v = &layouts[3] }},
 	{ MODKEY,                 XK_o,                      winview,        {0} },
 	{ MODKEY|ShiftMask,             XK_t,      schemeToggle,   {0} },
@@ -174,20 +176,3 @@ static Button buttons[] = {
 	{ ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
 	{ ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
