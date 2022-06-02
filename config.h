@@ -8,16 +8,24 @@ static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[]          = {
 /*	"IBM CGA 8x8:style=Regular:size=7",*/
-	"Terminus:size=8"
+	"JetBrains Mono:size=8"
 };
-static const char col_white[]       = "#FFFFFF";
-static const char col_gray1[]       = "#292b2e";
-static const char col_gray2[]       = "#666666";
-static const char col_cyan[]        = "#bc6ec5";
+
+/* solarized colors http://ethanschoonover.com/solarized */
+static const char s_base03[]        = "#002b36";
+static const char s_base02[]        = "#073642";
+static const char s_base01[]        = "#586e75";
+static const char s_base00[]        = "#657b83";
+static const char s_base0[]         = "#839496";
+static const char s_base1[]         = "#93a1a1";
+static const char s_base2[]         = "#eee8d5";
+static const char s_base3[]         = "#fdf6e3";
 static const char *colors[][3]      = {
     /*               fg         bg         border   */
-    [SchemeNorm] = { col_white, col_gray1, col_gray2 },
-    [SchemeSel]  = { col_cyan,  col_gray1, col_white },
+	{ s_base0, s_base03, s_base2 },      /* SchemeNorm dark */
+	{ s_base0, s_base02, s_base2 },      /* SchemeSel dark */
+	{ s_base00, s_base3, s_base02 },     /* SchemeNorm light */
+	{ s_base00, s_base2, s_base02},      /* SchemeSel light */
 };
 
 /* tagging */
@@ -110,6 +118,8 @@ static Key keys[] = {
 	{ MODKEY,                 XK_q,                      killclient,     {0} },
 	{ MODKEY,                 XK_g,                      setlayout,      {.v = &layouts[3] }},
 	{ MODKEY,                 XK_o,                      winview,        {0} },
+	{ MODKEY|ShiftMask,             XK_t,      schemeToggle,   {0} },
+	{ MODKEY|ShiftMask,             XK_z,      schemeCycle,    {0} },
 	/*                                                                            */
 	{ MODKEY,                 XK_p,                      spawn,          {.v = dmenucmd } },
 	{ MODKEY|ShiftMask,       XK_Return,                 spawn,          {.v = termcmd } },
