@@ -8,22 +8,22 @@ static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[]          = {
 /*	"IBM CGA 8x8:style=Regular:size=7",*/
-	"JetBrains Mono:size=8"
+	"JetBrains Mono:size=14"
 };
 
 /* solarized colors http://ethanschoonover.com/solarized */
 static const char s_base03[]        = "#002b36";
-static const char s_base02[]        = "#073642";
+static const char s_base02[]        = "#202020";
 static const char s_base01[]        = "#586e75";
 static const char s_base00[]        = "#657b83";
-static const char s_base0[]         = "#839496";
+static const char s_base0[]         = "#ffffff";
 static const char s_base1[]         = "#93a1a1";
 static const char s_base2[]         = "#eee8d5";
 static const char s_base3[]         = "#fdf6e3";
 static const char *colors[][3]      = {
     /*               fg         bg         border   */
-	{ s_base0, s_base03, s_base2 },      /* SchemeNorm dark */
-	{ s_base0, s_base02, s_base2 },      /* SchemeSel dark */
+	{ s_base0, s_base02, s_base2 },      /* SchemeNorm dark */
+	{ s_base0, s_base03, s_base2 },      /* SchemeSel dark */
 	{ s_base00, s_base3, s_base02 },     /* SchemeNorm light */
 	{ s_base00, s_base2, s_base02},      /* SchemeSel light */
 };
@@ -61,11 +61,14 @@ static const Layout layouts[] = {
 
 /* key definitions */
 #define MODKEY Mod4Mask
+#define ALTMOD Mod1Mask|Mod4Mask
 #define TAGKEYS(KEY,TAG) \
 	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
 	{ MODKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, \
-	{ MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
+	{ MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} }, \
+	{ ALTMOD,                       KEY,      focusnthmon,    {.i = TAG} }, \
+	{ ALTMOD|ShiftMask,             KEY,      tagnthmon,      {.i = TAG} },
 
 /* helpers for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
@@ -102,7 +105,7 @@ static Key keys[] = {
 	{ MODKEY,                 XK_v,                      spawn,          SHCMD("dmenu | mpv") },
 	{ MODKEY|ShiftMask,       XK_s,                      spawn,          SHCMD("prmpt shutdown sudo -A shutdown -h now") },
 	{ MODKEY|ShiftMask,       XK_r,                      spawn,          SHCMD("prmpt reboot sudo -A reboot") },
-	{ MODKEY|ShiftMask,       XK_l,                      spawn,          SHCMD("slock") },
+	{ MODKEY|ShiftMask,       XK_l,                      quit,           {0} },
 	{ 0,                      XK_Print,                  spawn,          SHCMD("scrshot f") },
 	{ MODKEY,                 XK_F1,                     spawn,          SHCMD("scrshot f") },
 	{ MODKEY,                 XK_F2,                     spawn,          SHCMD("scrshot w") },
@@ -116,15 +119,13 @@ static Key keys[] = {
 	{ 0,                      XF86XK_AudioStop,          spawn,          SHCMD("mpc stop") },
 	{ 0,                      XF86XK_AudioNext,          spawn,          SHCMD("mpc next") },
 	{ 0,                      XF86XK_AudioPrev,          spawn,          SHCMD("mpc prev") },
-	{ MODKEY,                 XK_a,                      spawn,          SHCMD("tabbed -d >/tmp/tabbed.xid") },
-	{ MODKEY,                 XK_q,                      spawn,          SHCMD("quickmedia launcher -e $(</tmp/tabbed.xid)") },
 	{ MODKEY,                 XK_g,                      setlayout,      {.v = &layouts[3] }},
 	{ MODKEY,                 XK_o,                      winview,        {0} },
-	{ MODKEY|ShiftMask,             XK_t,      schemeToggle,   {0} },
-	{ MODKEY|ShiftMask,             XK_z,      schemeCycle,    {0} },
+	{ MODKEY|ShiftMask,       XK_t,                      schemeToggle,   {0} },
+	{ MODKEY|ShiftMask,       XK_z,                      schemeCycle,    {0} },
 	/*                                                                            */
-	{ MODKEY,                 XK_p,                      spawn,          {.v = dmenucmd } },
-	{ MODKEY|ShiftMask,       XK_Return,                 spawn,          {.v = termcmd } },
+	{ MODKEY,                 XK_space,                  spawn,          {.v = dmenucmd } },
+	{ MODKEY,                 XK_Return,                 spawn,          {.v = termcmd } },
 	{ MODKEY,                 XK_b,                      togglebar,      {0} },
 	{ MODKEY,                 XK_j,                      focusstack,     {.i = +1 } },
 	{ MODKEY,                 XK_k,                      focusstack,     {.i = -1 } },
@@ -133,12 +134,12 @@ static Key keys[] = {
 	{ MODKEY,                 XK_h,                      setmfact,       {.f = -0.05} },
 	{ MODKEY,                 XK_l,                      setmfact,       {.f = +0.05} },
 	{ MODKEY,                 XK_Return,                 zoom,           {0} },
-	{ MODKEY,                 XK_Tab,                    view,           {0} },
+	{ MODKEY,                 XK_q,                      view,           {0} },
+	{ MODKEY|ShiftMask,       XK_q,                      killclient,     {0} },
 	{ MODKEY|ShiftMask,       XK_c,                      killclient,     {0} },
 	{ MODKEY,                 XK_t,                      setlayout,      {.v = &layouts[0]} },
 	{ MODKEY,                 XK_f,                      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                 XK_m,                      setlayout,      {.v = &layouts[2]} },
-	{ MODKEY,                 XK_space,                  setlayout,      {0} },
 	{ MODKEY|ShiftMask,       XK_space,                  togglefloating, {0} },
 	{ MODKEY,                 XK_0,                      view,           {.ui = ~0 } },
 	{ MODKEY|ShiftMask,       XK_0,                      tag,            {.ui = ~0 } },
@@ -155,7 +156,6 @@ static Key keys[] = {
 	TAGKEYS(                  XK_7,                      6)
 	TAGKEYS(                  XK_8,                      7)
 	TAGKEYS(                  XK_9,                      8)
-	{ MODKEY|ShiftMask,       XK_q,                      quit,           {0} },
 };
 
 /* button definitions */

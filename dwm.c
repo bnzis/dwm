@@ -46,6 +46,7 @@
 #include <xcb/res.h>
 #include <libgen.h>
 #include <sys/stat.h>
+#include <time.h>
 
 #include "drw.h"
 #include "util.h"
@@ -135,6 +136,7 @@ struct Monitor {
 	Client *clients;
 	Client *sel;
 	Client *stack;
+	Client **altsnext; /* array of all clients in the tag */
 	Monitor *next;
 	Window barwin;
 	const Layout *lt[2];
@@ -172,6 +174,7 @@ static void destroynotify(XEvent *e);
 static void detach(Client *c);
 static void detachstack(Client *c);
 static Monitor *dirtomon(int dir);
+static Monitor *numtomon(int num);
 static void drawbar(Monitor *m);
 static void drawbars(void);
 static void enternotify(XEvent *e);
@@ -179,6 +182,7 @@ static void expose(XEvent *e);
 static void focus(Client *c);
 static void focusin(XEvent *e);
 static void focusmon(const Arg *arg);
+static void focusnthmon(const Arg *arg);
 static void focusstack(const Arg *arg);
 static int getrootptr(int *x, int *y);
 static long getstate(Window w);
@@ -204,6 +208,7 @@ static void resizeclient(Client *c, int x, int y, int w, int h);
 static void resizemouse(const Arg *arg);
 static void restack(Monitor *m);
 static void run(void);
+static void runautostart(void);
 static void scan(void);
 static void schemeCycle(const Arg*);
 static void schemeToggle(const Arg*);
@@ -221,6 +226,7 @@ static void sigchld(int unused);
 static void spawn(const Arg *arg);
 static void tag(const Arg *arg);
 static void tagmon(const Arg *arg);
+static void tagnthmon(const Arg *arg);
 static void tile(Monitor *);
 static void togglebar(const Arg *arg);
 static void togglefloating(const Arg *arg);
@@ -259,6 +265,8 @@ static void copyvalidchars(char *text, char *rawtext);
 static int getdwmblockspid();
 static void sigdwmblocks(const Arg *arg);
 static void winview(const Arg* arg);
+void drawTab(int nwins, int first, Monitor *m);
+void altTabStart(const Arg *arg);
 
 /* variables */
 static const char broken[] = "broken";
@@ -576,7 +584,7 @@ cleanup(void)
 	Layout foo = { "", NULL };
 	Monitor *m;
 	size_t i;
-
+	
 	view(&a);
 	selmon->lt[selmon->sellt] = &foo;
 	for (m = mons; m; m = m->next)
@@ -2618,6 +2626,46 @@ sigdwmblocks(const Arg *arg)
 	}
 }
 
+Monitor *
+numtomon(int num)
+{
+	Monitor *m = NULL;
+	int i = 0;
+
+	for (m = mons, i=0; m->next && i < num; m = m->next){
+		i++;
+	}
+	return m;
+}
+
+void
+focusnthmon(const Arg *arg)
+{
+	Monitor *m;
+
+	if (!mons->next)
+		return;
+
+	if ((m = numtomon(arg->i)) == selmon)
+		return;
+	unfocus(selmon->sel, 0);
+	selmon = m;
+	focus(NULL);
+}
+
+void
+tagnthmon(const Arg *arg)
+{
+	if (!selmon->sel || !mons->next)
+		return;
+	sendmon(selmon->sel, numtomon(arg->i));
+}
+
+void runautostart(void) {
+	system("cd ~/.dwm; ./austostart_blocking.sh");
+	system("cd ~/.dwm; ./autostart.sh &");
+}
+
 int
 main(int argc, char *argv[])
 {
@@ -2638,6 +2686,7 @@ main(int argc, char *argv[])
 		die("pledge");
 #endif /* __OpenBSD__ */
 	scan();
+	runautostart();
 	run();
 	cleanup();
 	XCloseDisplay(dpy);
