@@ -105,7 +105,7 @@ static Key keys[] = {
 	{ MODKEY,                 XK_v,                      spawn,          SHCMD("dmenu | mpv") },
 	{ MODKEY|ShiftMask,       XK_s,                      spawn,          SHCMD("prmpt shutdown sudo -A shutdown -h now") },
 	{ MODKEY|ShiftMask,       XK_r,                      spawn,          SHCMD("prmpt reboot sudo -A reboot") },
-	{ MODKEY|ShiftMask,       XK_l,                      quit,           {0} },
+	{ MODKEY|ShiftMask,       XK_F6,                     quit,           {0} },
 	{ 0,                      XK_Print,                  spawn,          SHCMD("scrshot f") },
 	{ MODKEY,                 XK_F1,                     spawn,          SHCMD("scrshot f") },
 	{ MODKEY,                 XK_F2,                     spawn,          SHCMD("scrshot w") },
@@ -125,7 +125,7 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,       XK_z,                      schemeCycle,    {0} },
 	/*                                                                            */
 	{ MODKEY,                 XK_space,                  spawn,          {.v = dmenucmd } },
-	{ MODKEY,                 XK_Return,                 spawn,          {.v = termcmd } },
+	{ MODKEY|ShiftMask,       XK_Return,                 spawn,          {.v = termcmd } },
 	{ MODKEY,                 XK_b,                      togglebar,      {0} },
 	{ MODKEY,                 XK_j,                      focusstack,     {.i = +1 } },
 	{ MODKEY,                 XK_k,                      focusstack,     {.i = -1 } },
