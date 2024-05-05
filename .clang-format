@@ -1,0 +1,20 @@
+---
+Language:        Cpp
+
+UseTab: AlignWithSpaces
+IndentWidth: 8
+TabWidth: 8
+ColumnLimit: 0
+BreakBeforeBraces: Linux
+AllowShortBlocksOnASingleLine: false
+AllowShortFunctionsOnASingleLine: false
+AllowShortIfStatementsOnASingleLine: false
+AllowShortLoopsOnASingleLine: false
+AlwaysBreakAfterReturnType: AllDefinitions
+BinPackArguments: false
+BinPackParameters: false
+AlignAfterOpenBracket: DontAlign
+AlignOperands: DontAlign
+AlignArrayOfStructures: Right
+...
+
