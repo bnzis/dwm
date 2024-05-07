@@ -12,7 +12,8 @@ static const int showbar = 1;                 /* 0 means no bar */
 static const int topbar = 1;                  /* 0 means bottom bar */
 static const char *fonts[] = {
     /*	"IBM CGA 8x8:style=Regular:size=7",*/
-    "JetBrains Mono:size=14"};
+    "JetBrains Mono:size=14",
+    "Noto Color Emoji:size=14"};
 
 /* solarized colors http://ethanschoonover.com/solarized */
 static const char s_base03[] = "#002b36";
